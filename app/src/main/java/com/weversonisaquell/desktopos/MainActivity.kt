@@ -71,3 +71,23 @@ class MainActivity : AppCompatActivity() {
             MotionEvent.ACTION_UP -> {
                 val duration = System.currentTimeMillis() - touchStartTime
                 if (!moved) {
+                    if (duration >= 500) {
+                        dispatchClick(true)
+                    } else {
+                        dispatchClick(false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun dispatchClick(rightClick: Boolean) {
+        val cx = (cursorX + cursor.width / 2).toInt()
+        val cy = (cursorY + cursor.height / 2).toInt()
+        val eventType = if (rightClick) "contextmenu" else "click"
+
+        val js = "(function(){var el=document.elementFromPoint(" + cx + "," + cy + ");if(el){var ev=new MouseEvent('" + eventType + "',{bubbles:true,cancelable:true,clientX:" + cx + ",clientY:" + cy + "});el.dispatchEvent(ev);}})();"
+
+        webView.evaluateJavascript(js, null)
+    }
+}
