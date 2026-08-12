@@ -90,3 +90,5 @@ class MainActivity : AppCompatActivity() {
         val js = "(function(){var el=document.elementFromPoint(" + cx + "," + cy + ");if(el){var ev=new MouseEvent('" + eventType + "',{bubbles:true,cancelable:true,clientX:" + cx + ",clientY:" + cy + "});el.dispatchEvent(ev);}})();"
 
         webView.evaluateJavascript(js, null)
+    }
+}
